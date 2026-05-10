@@ -36,7 +36,11 @@ void TextBlock::render(const GfxRenderer& renderer, const int fontId, const int 
         underlineWidth = visibleWidth;
       }
 
-      renderer.drawLine(startX, underlineY, startX + underlineWidth, underlineY, 2, true);
+      if ((currentStyle & EpdFontFamily::BOLD) !=0) {
+        renderer.drawLine(startX, underlineY, startX + underlineWidth, underlineY, 3, true);
+      } else {
+        renderer.drawLine(startX, underlineY, startX + underlineWidth, underlineY, 2, true);
+      }
     }
 
     if ((currentStyle & EpdFontFamily::STRIKETHROUGH) != 0) {
@@ -61,7 +65,11 @@ void TextBlock::render(const GfxRenderer& renderer, const int fontId, const int 
         strikeWidth = visibleWidth;
       }
 
-      renderer.drawLine(startX, strikeY, startX + strikeWidth, strikeY, 2, true);
+      if ((currentStyle & EpdFontFamily::BOLD) !=0) {
+        renderer.drawLine(startX, strikeY, startX + strikeWidth, strikeY, 3, true);
+      } else {
+        renderer.drawLine(startX, strikeY, startX + strikeWidth, strikeY, 2, true);
+      }
     }
   }
 }
