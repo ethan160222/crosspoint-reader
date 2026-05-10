@@ -1,5 +1,14 @@
 # CrossPoint Reader
 
+## About this fork
+
+This is a personal fork of [CrossPoint](https://github.com/crosspoint-reader/crosspoint-reader/) firmware for the Xteink X3 and X4 readers. Focus will be on minimal modifications for personal use.
+
+### EpubReader modifications
+* ~~Modify built-in fonts.~~
+
+## CrossPoint Reader
+
 Firmware for the **Xteink X4** e-paper display reader (unaffiliated with Xteink).
 Built using **PlatformIO** and targeting the **ESP32-C3** microcontroller.
 
