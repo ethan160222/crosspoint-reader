@@ -36,7 +36,7 @@ void TextBlock::render(const GfxRenderer& renderer, const int fontId, const int 
         underlineWidth = visibleWidth;
       }
 
-      renderer.drawLine(startX, underlineY, startX + underlineWidth, underlineY, true);
+      renderer.drawLine(startX, underlineY, startX + underlineWidth, underlineY, 2, true);
     }
 
     if ((currentStyle & EpdFontFamily::STRIKETHROUGH) != 0) {
