@@ -1,0 +1,39 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/cpp",
+    "containerEnv": {
+        "PLATFORMIO_CORE_DIR": "/home/vscode/"
+    },
+    "runArgs": [
+        //"--device=/dev/cu.usbmodem1101:/dev/cu.usbmodem1101",
+        //"--privileged"
+    ],
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "configureZshAsDefaultShell": true
+        },
+        "ghcr.io/devcontainers/features/python:1": {},
+        "ghcr.io/devcontainer-community/devcontainer-features/clang-format:latest": {},
+        /*
+        "ghcr.io/w3cj/devcontainer-features/firewall:latest": {
+            "verbose": true,
+            "githubIps": true,
+            "pypi": true,
+            "vscodeMarketplace": true
+        }
+        */
+    },
+    "mounts": [
+         {
+            "source": "${localEnv:HOME}/.platformio",
+            "target": "/home/vscode/.platformio",
+            "type": "bind"
+        }   
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "platformio.platformio-ide"
+            ]
+        }
+    }
+}
