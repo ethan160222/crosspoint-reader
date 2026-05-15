@@ -4,7 +4,7 @@
         "PLATFORMIO_CORE_DIR": "/home/vscode/"
     },
     "runArgs": [
-        //"--device=/dev/cu.usbmodem1101:/dev/cu.usbmodem1101",
+        //"--device=/dev/cu.usbmodem1101:/dev/cu.usbmodem1101", //not supported on macOS
         //"--privileged"
     ],
     "features": {
@@ -12,15 +12,18 @@
             "configureZshAsDefaultShell": true
         },
         "ghcr.io/devcontainers/features/python:1": {},
-        "ghcr.io/devcontainer-community/devcontainer-features/clang-format:latest": {},
-        /*
+        "ghcr.io/devcontainer-community/devcontainer-features/clang-format:latest": {}, //unfortunately this is version 19 instead of 21
+/*        
         "ghcr.io/w3cj/devcontainer-features/firewall:latest": {
             "verbose": true,
+            "hosts": "platformio.org",
+            "debianPackages": true,
             "githubIps": true,
+            "githubDomains": true,
             "pypi": true,
             "vscodeMarketplace": true
-        }
-        */
+        } //cant seem to fully install pio tooling
+ */        
     },
     "mounts": [
          {
