@@ -12,7 +12,7 @@
 
 enum PageElementTag : uint8_t {
   TAG_PageLine = 1,
-  TAG_PageImage = 2,  // New tag
+  TAG_PageImage = 2,
   TAG_PageHorizontalRule = 3,
 };
 

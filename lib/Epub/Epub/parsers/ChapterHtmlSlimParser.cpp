@@ -8,7 +8,9 @@
 #include <XmlParserUtils.h>
 #include <expat.h>
 
+#include <algorithm>
 #include <iterator>
+#include <new>
 
 #include "Epub.h"
 #include "Epub/Page.h"
@@ -160,7 +162,7 @@ void ChapterHtmlSlimParser::emitHorizontalRule(const BlockStyle& blockStyle) {
     flushPartWordBuffer();
   }
 
-  if (currentTextBlock && !currentTextBlock->isEmpty()) {
+  if (currentTextBlock) {
     const BlockStyle parentBlockStyle = currentTextBlock->getBlockStyle();
     startNewTextBlock(parentBlockStyle);
   }
@@ -168,7 +170,7 @@ void ChapterHtmlSlimParser::emitHorizontalRule(const BlockStyle& blockStyle) {
   if (!currentPage) {
     currentPage.reset(new (std::nothrow) Page());
     if (!currentPage) {
-      LOG_ERR("EHP", "Failed to create page for horizontal rule)");
+      LOG_ERR("EHP", "Failed to create page for horizontal rule");
       return;
     }
     currentPageNextY = 0;
@@ -332,6 +334,11 @@ void XMLCALL ChapterHtmlSlimParser::startElement(void* userData, const XML_Char*
     self->inlineStyleStack.pop_back();
     self->updateEffectiveInlineStyle();
 
+    self->depth += 1;
+    return;
+  }
+
+  if (self->tableDepth == 1 && strcmp(name, "hr") == 0) {
     self->depth += 1;
     return;
   }
@@ -689,8 +696,7 @@ void XMLCALL ChapterHtmlSlimParser::startElement(void* userData, const XML_Char*
       hrBlockStyle.textIndent = 0;
     }
     self->emitHorizontalRule(hrBlockStyle);
-    // self->ancestorStack_.push_back({self->depth, std::string(name), classAttr});
-    // self->depth += 1;
+    self->depth += 1;
     return;
   }
 

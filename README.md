@@ -3,7 +3,6 @@
 This is a personal fork of [CrossPoint](https://github.com/crosspoint-reader/crosspoint-reader/) firmware for the Xteink X3 and X4 readers. Focus will be on minimal modifications for personal use.
 
 ### EpubReader modifications
-* Horizontal Rule `hr` support, inspired by [CrossInk](https://github.com/uxjulia/CrossInk)
 * Strikethrough(~~strikethrough~~) support, inspired by [CrossInk](https://github.com/uxjulia/CrossInk)
 * Make underlines and strikethroughs thicker, especially when **bold**
 

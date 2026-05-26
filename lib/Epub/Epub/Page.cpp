@@ -4,6 +4,8 @@
 #include <Logging.h>
 #include <Serialization.h>
 
+#include <new>
+
 void PageLine::render(GfxRenderer& renderer, const int fontId, const int xOffset, const int yOffset) {
   block->render(renderer, fontId, xPos + xOffset, yPos + yOffset);
 }
@@ -49,40 +51,6 @@ std::unique_ptr<PageImage> PageImage::deserialize(FsFile& file) {
   return std::unique_ptr<PageImage>(new PageImage(std::move(ib), xPos, yPos));
 }
 
-void Page::render(GfxRenderer& renderer, const int fontId, const int xOffset, const int yOffset) const {
-  for (auto& element : elements) {
-    element->render(renderer, fontId, xOffset, yOffset);
-  }
-}
-
-bool Page::serialize(FsFile& file) const {
-  const uint16_t count = elements.size();
-  serialization::writePod(file, count);
-
-  for (const auto& el : elements) {
-    // Use getTag() method to determine type
-    serialization::writePod(file, static_cast<uint8_t>(el->getTag()));
-
-    if (!el->serialize(file)) {
-      return false;
-    }
-  }
-
-  // Serialize footnotes (clamp to MAX_FOOTNOTES_PER_PAGE to match addFootnote/deserialize limits)
-  const uint16_t fnCount = std::min<uint16_t>(footnotes.size(), MAX_FOOTNOTES_PER_PAGE);
-  serialization::writePod(file, fnCount);
-  for (uint16_t i = 0; i < fnCount; i++) {
-    const auto& fn = footnotes[i];
-    if (file.write(fn.number, sizeof(fn.number)) != sizeof(fn.number) ||
-        file.write(fn.href, sizeof(fn.href)) != sizeof(fn.href)) {
-      LOG_ERR("PGE", "Failed to write footnote");
-      return false;
-    }
-  }
-
-  return true;
-}
-
 void PageHorizontalRule::render(GfxRenderer& renderer, const int fontId, const int xOffset, const int yOffset) {
   (void)fontId;
   if (width == 0 || thickness == 0) {
@@ -122,6 +90,40 @@ std::unique_ptr<PageHorizontalRule> PageHorizontalRule::deserialize(FsFile& file
     return nullptr;
   }
   return std::unique_ptr<PageHorizontalRule>(rule);
+}
+
+void Page::render(GfxRenderer& renderer, const int fontId, const int xOffset, const int yOffset) const {
+  for (auto& element : elements) {
+    element->render(renderer, fontId, xOffset, yOffset);
+  }
+}
+
+bool Page::serialize(FsFile& file) const {
+  const uint16_t count = elements.size();
+  serialization::writePod(file, count);
+
+  for (const auto& el : elements) {
+    // Use getTag() method to determine type
+    serialization::writePod(file, static_cast<uint8_t>(el->getTag()));
+
+    if (!el->serialize(file)) {
+      return false;
+    }
+  }
+
+  // Serialize footnotes (clamp to MAX_FOOTNOTES_PER_PAGE to match addFootnote/deserialize limits)
+  const uint16_t fnCount = std::min<uint16_t>(footnotes.size(), MAX_FOOTNOTES_PER_PAGE);
+  serialization::writePod(file, fnCount);
+  for (uint16_t i = 0; i < fnCount; i++) {
+    const auto& fn = footnotes[i];
+    if (file.write(fn.number, sizeof(fn.number)) != sizeof(fn.number) ||
+        file.write(fn.href, sizeof(fn.href)) != sizeof(fn.href)) {
+      LOG_ERR("PGE", "Failed to write footnote");
+      return false;
+    }
+  }
+
+  return true; 
 }
 
 std::unique_ptr<Page> Page::deserialize(FsFile& file) {
