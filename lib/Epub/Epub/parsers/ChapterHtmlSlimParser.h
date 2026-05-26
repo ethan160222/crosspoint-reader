@@ -62,6 +62,8 @@ class ChapterHtmlSlimParser {
     bool hasBold = false, bold = false;
     bool hasItalic = false, italic = false;
     bool hasUnderline = false, underline = false;
+    bool hasSup = false, sup = false;
+    bool hasSub = false, sub = false;
     bool hasStrikethrough = false, strikethrough = false;
   };
   std::vector<StyleStackEntry> inlineStyleStack;
@@ -70,6 +72,8 @@ class ChapterHtmlSlimParser {
   bool effectiveBold = false;
   bool effectiveItalic = false;
   bool effectiveUnderline = false;
+  bool effectiveSup = false;
+  bool effectiveSub = false;
   bool effectiveStrikethrough = false;
   int tableDepth = 0;
   int tableRowIndex = 0;
