@@ -886,7 +886,7 @@ void XMLCALL ChapterHtmlSlimParser::startElement(void* userData, const XML_Char*
     }
     self->inlineStyleStack.push_back(entry);
     self->updateEffectiveInlineStyle();
-  } else if (strcmp(name, "span") == 0 || !isHeaderOrBlock(name)) {
+    } else if (strcmp(name, "span") == 0 || !isHeaderOrBlock(name)) {
     // Handle span and other inline elements for CSS styling
     if (cssStyle.hasFontWeight() || cssStyle.hasFontStyle() || cssStyle.hasTextDecoration() ||
         cssStyle.hasVerticalAlign()) {
