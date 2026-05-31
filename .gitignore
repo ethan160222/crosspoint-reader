@@ -14,9 +14,13 @@ build
 /.cache
 .history/
 /.venv
+.devcontainer/devcontainer-lock.json
 *.local*
 *.cpfont
 lib/EpdFont/scripts/downloaded_fonts/
 lib/EpdFont/scripts/instanced_fonts/
 lib/EpdFont/scripts/output/
-.devcontainer/devcontainer-lock.json
+# Claude Code: share project skills with the team, keep local agent state
+# (worktrees, scheduled-task locks, settings.local, scout CLEANUP.md) out.
+.claude/*
+!.claude/skills/
